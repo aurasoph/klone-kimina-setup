@@ -59,14 +59,14 @@ pip install -e "${KIMINA_ENGINE_DIR}"
 pip install python-dotenv
 
 echo "--- Step 6: Finalizing ---"
-cp ../kimina_setup/submit_server.sh "$USER_PROJECT_DIR/"
-cp ../kimina_setup/run_kimina.slurm "$USER_PROJECT_DIR/"
-cp ../kimina_setup/verify_proof.py "$USER_PROJECT_DIR/"
-cp ../kimina_setup/demo_tactics.py "$USER_PROJECT_DIR/"
-cp ../kimina_setup/demo_batch.py "$USER_PROJECT_DIR/"
-cp ../kimina_setup/verify_folder.py "$USER_PROJECT_DIR/"
-cp ../kimina_setup/.env "$USER_PROJECT_DIR/"
-mv ../kimina_setup/example_lean "$USER_PROJECT_DIR"/
+cp ../klone-kimina-setup/submit_server.sh "$USER_PROJECT_DIR/"
+cp ../klone-kimina-setup/run_kimina.slurm "$USER_PROJECT_DIR/"
+cp ../klone-kimina-setup/verify_proof.py "$USER_PROJECT_DIR/"
+cp ../klone-kimina-setup/demo_tactics.py "$USER_PROJECT_DIR/"
+cp ../klone-kimina-setup/demo_batch.py "$USER_PROJECT_DIR/"
+cp ../klone-kimina-setup/verify_folder.py "$USER_PROJECT_DIR/"
+cp ../klone-kimina-setup/.env "$USER_PROJECT_DIR/"
+mv ../klone-kimina-setup/example_lean "$USER_PROJECT_DIR"/
 
 
 chmod +x "${USER_PROJECT_DIR}/submit_server.sh"

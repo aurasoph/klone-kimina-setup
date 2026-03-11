@@ -18,4 +18,6 @@ rm -f "${DISCOVERY_DIR}"/*.addr
 sbatch --cpus-per-task=$JOB_CPUS \
        --mem=$JOB_MEM \
        --time=$JOB_TIME \
+       --account=$JOB_ACCOUNT \
+       --partition=$JOB_PARTITION \
        run_kimina.slurm

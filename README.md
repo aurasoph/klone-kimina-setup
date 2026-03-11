@@ -36,7 +36,7 @@ You can monitor the startup progress in the generated `kimina_server_*.log` file
 
 ### 4. Verify the Connection
 
-Activate the provided Conda environment and run the verification test:
+Activate the provided Conda environment and run the verification test (in your project directory, defined as `PROJECT_FOLDER_NAME` in your `.env`)
 
 ```bash
 module load conda

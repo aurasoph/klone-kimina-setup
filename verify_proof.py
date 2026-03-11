@@ -22,7 +22,7 @@ def get_url():
 
 client = KiminaClient(get_url())
 
-proof = "theorem t (p q : Prop) : p ∧ q ↔ q ∧ p := by exact And.comm"
+proof = "theorem my_theorem (p q : Prop) : p ∧ q ↔ q ∧ p := by exact And.comm"
 result = client.check(proof)
 
 print(f"Verification Results for: {client.api_url}")

@@ -6,6 +6,8 @@ set -a
 source .env
 set +a
 
+if ["$HYAK_USERNAME" == ""]; then HYAK_USERNAME="$USER"; fi
+
 G_BASE="/mmfs1/gscratch/scrubbed/${HYAK_USERNAME}"
 KIMINA_ENGINE_DIR="${G_BASE}/${ENGINE_FOLDER_NAME}"
 DISCOVERY_DIR="${G_BASE}/${DISCOVERY_FOLDER_NAME}"

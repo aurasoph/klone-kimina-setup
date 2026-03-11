@@ -7,6 +7,8 @@ load_dotenv()
 
 def get_discovery_path():
     user = os.getenv("HYAK_USERNAME")
+    if user is "":
+        user = os.getenv("USER")
     folder = os.getenv("DISCOVERY_FOLDER_NAME")
     return f"/mmfs1/gscratch/scrubbed/{user}/{folder}"
 

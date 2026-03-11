@@ -5,7 +5,7 @@ This repository provides a streamlined setup for running the [Kimina Lean Server
 ## Quick Start
 
 ### 1. Placement and Configuration
-Ensure the project folder is located in your `gscratch` directory. Update the `.env` file with your `HYAK_USERNAME` and desired resource allocations.
+Ensure the project folder is located in your `gscratch` directory (usually `/gscratch/scrubbed/<your-net-id>`). Update the `.env` file with your `HYAK_USERNAME` and desired resource allocations. If `HYAK_USERNAME` is left empty, `USER` will be used instead.
 
 ### 2. Installation
 Run the installation script from within the setup folder. This will clone the engine, build Lean components, create a Conda environment, and pull the required Apptainer container:
@@ -14,6 +14,9 @@ Run the installation script from within the setup folder. This will clone the en
 bash install.sh
 
 ```
+Notes:
+- You should not run this from a login node. 1 CPU and 10G of memory is sufficient.
+- Even with sufficient compute, this will take a while. In particular, creating the `.sif` file may take ~30 minutes. 
 
 ### 3. Start the Server
 

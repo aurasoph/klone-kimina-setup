@@ -11,6 +11,8 @@ load_dotenv()
 def get_discovery_path():
     """Constructs the discovery path dynamically based on the project environment."""
     user = os.getenv("HYAK_USERNAME")
+    if user == "":
+        user = os.getenv("USER")
     folder = os.getenv("DISCOVERY_FOLDER_NAME")
     return f"/mmfs1/gscratch/scrubbed/{user}/{folder}"
 

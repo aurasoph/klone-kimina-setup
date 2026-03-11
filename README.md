@@ -14,6 +14,11 @@ Run the installation script from within the setup folder. This will clone the en
 bash install.sh
 
 ```
+This will create 3 folders: 
+- kimina_discovery: A folder to store the location of the server
+- kimina-engine: A folder to store the Kimina Lean Server repo, as well as the apptainer used to run it.
+- PROJECT_FOLDER_NAME: A name defined in .env, which will contain all the scripts for starting and interacting with the server. 
+
 Notes:
 - You should not run this from a login node. 1 CPU and 10G of memory is sufficient.
 - Even with sufficient compute, this will take a while. In particular, creating the `.sif` file may take ~30 minutes. 
@@ -33,6 +38,14 @@ You can monitor the startup progress in the generated `kimina_server_*.log` file
 
 Activate the provided Conda environment and run the verification test:
 
+```bash
+module load conda
+conda activate ./conda_env
+python verify_proof.py
+
+```
+
+There is also an additional test to shows how to submit multiple Lean files
 ```bash
 python verify_proof.py
 

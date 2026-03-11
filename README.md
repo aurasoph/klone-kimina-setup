@@ -45,8 +45,13 @@ python verify_proof.py
 
 ```
 
-There is also an additional test to shows how to submit multiple Lean files
+There is also an additional test to shows how to submit multiple Lean files. One of these files is intended to fail.
 ```bash
 python verify_proof.py
 
 ```
+
+
+## Intended Features for later versions: 
+-  Example for examining states
+-  More consistent server running

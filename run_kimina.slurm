@@ -11,6 +11,7 @@ if ["$HYAK_USERNAME" == ""]; then HYAK_USERNAME="$USER"; fi
 G_BASE="/mmfs1/gscratch/scrubbed/${HYAK_USERNAME}"
 KIMINA_ENGINE_DIR="${G_BASE}/${ENGINE_FOLDER_NAME}"
 DISCOVERY_DIR="${G_BASE}/${DISCOVERY_FOLDER_NAME}"
+ELAN_HOME_PATH="${G_BASE}/.elan"
 
 NODE_NAME=$(hostname)
 PORT=$(shuf -i 10000-65000 -n 1)
@@ -22,7 +23,10 @@ trap 'rm -f "$ADDR_FILE"' EXIT
 
 apptainer exec \
   --bind "${KIMINA_ENGINE_DIR}:/root/kimina-lean-server" \
+  --bind "${ELAN_HOME_PATH}:${ELAN_HOME_PATH}" \
   --pwd /root/kimina-lean-server \
+  --env ELAN_HOME="${ELAN_HOME_PATH}" \
+  --env PATH="${ELAN_HOME_PATH}/bin:/usr/local/bin:/usr/bin:/bin" \
   --env LEAN_SERVER_HOST=0.0.0.0 \
   --env LEAN_SERVER_PORT=$PORT \
   --env LEAN_SERVER_LEAN_VERSION=$LEAN_VERSION \

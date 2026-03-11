@@ -20,7 +20,7 @@ Notes:
 
 ### 3. Start the Server
 
-Navigate to your project directory (defined as `PROJECT_FOLDER_NAME` in your `.env`) and submit the server job to SLURM.
+Navigate to your project directory (defined as `PROJECT_FOLDER_NAME` in your `.env`) and submit the server job to SLURM. **Running multiple servers is not intended and may break. If you need more servers, simply give the server more resources.**
 
 ```bash
 ./submit_server.sh

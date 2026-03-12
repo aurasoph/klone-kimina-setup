@@ -20,10 +20,12 @@ def get_url():
     with open(addr_files[0], 'r') as f:
         return f.read().strip()
 
-client = KiminaClient(get_url())
+if __name__ == "__main__":
+    client = KiminaClient(get_url())
 
-proof = "theorem my_theorem (p q : Prop) : p ∧ q ↔ q ∧ p := by exact And.comm"
-result = client.check(proof)
+    proof = "theorem my_theorem (p q : Prop) : p ∧ q ↔ q ∧ p := by exact And.comm"
+    timeout = os.getenv("TIMEOUT")
+    result = client.check(proof, timeout=timeout)
 
-print(f"Verification Results for: {client.api_url}")
-print(result.model_dump_json(indent=2))
+    print(f"Verification Results for: {client.api_url}")
+    print(result.model_dump_json(indent=2))

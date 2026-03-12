@@ -25,7 +25,7 @@ def get_url():
     with open(addr_files[0], 'r') as f:
         return f.read().strip()
 
-def run_lean_folder(folder_path, chunk_size=10):
+def run_lean_folder(folder_path, chunk_size=10, timeout=60):
     """
     Identifies all .lean files and processes them in safe 'chunks' to prevent 
     network timeouts and payload errors while utilizing server-side parallelization.
@@ -58,7 +58,7 @@ def run_lean_folder(folder_path, chunk_size=10):
         
         print(f"[{i+len(chunk)}/{total_files}] Submitting batch...")
         
-        batch_result = client.check(chunk_contents)
+        batch_result = client.check(chunk_contents, timeout=timeout)
         
         for name, res in zip(chunk_names, batch_result.results):
             all_results.append({
@@ -84,6 +84,7 @@ if __name__ == "__main__":
         target_dir = sys.argv[1]
         if os.path.isdir(target_dir):
             # A chunk_size of 10-20 is generally safe for most network conditions
-            run_lean_folder(target_dir, chunk_size=10)
+            timeout = os.getenv("TIMEOUT")
+            run_lean_folder(target_dir, chunk_size=10, timeout=timeout)
         else:
             print(f"Error: {target_dir} is not a valid directory.")

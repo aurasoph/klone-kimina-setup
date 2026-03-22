@@ -7,7 +7,7 @@ load_dotenv()
 
 def get_discovery_path():
     user = os.getenv("HYAK_USERNAME")
-    if user == "":
+    if not user:
         user = os.getenv("USER")
     folder = os.getenv("DISCOVERY_FOLDER_NAME")
     return f"/mmfs1/gscratch/scrubbed/{user}/{folder}"
@@ -24,8 +24,9 @@ if __name__ == "__main__":
     client = KiminaClient(get_url())
 
     proof = "theorem my_theorem (p q : Prop) : p ∧ q ↔ q ∧ p := by exact And.comm"
-    timeout = os.getenv("TIMEOUT")
-    result = client.check(proof, timeout=timeout)
+    timeout_val = os.getenv("TIMEOUT", "60")
+    
+    result = client.check(proof, timeout=float(timeout_val))
 
     print(f"Verification Results for: {client.api_url}")
     print(result.model_dump_json(indent=2))

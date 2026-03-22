@@ -5,13 +5,13 @@ set -a
 source .env
 set +a
 
-if ["$HYAK_USERNAME" == ""]; then HYAK_USERNAME="$USER"; fi
+if [ "$HYAK_USERNAME" == "" ]; then HYAK_USERNAME="$USER"; fi
 
 G_BASE="/mmfs1/gscratch/scrubbed/${HYAK_USERNAME}"
 DISCOVERY_DIR="${G_BASE}/${DISCOVERY_FOLDER_NAME}"
 
 # Clean up previous runs
-echo "Cleaning up stale discovery files..."
+echo "Cleaning up stale discovery files in $DISCOVERY_DIR..."
 rm -f "${DISCOVERY_DIR}"/*.addr
 
 # Submit the new job

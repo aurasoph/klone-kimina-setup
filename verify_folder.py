@@ -11,7 +11,7 @@ load_dotenv()
 def get_discovery_path():
     """Constructs the discovery path dynamically based on the project environment."""
     user = os.getenv("HYAK_USERNAME")
-    if user == "":
+    if not user:
         user = os.getenv("USER")
     folder = os.getenv("DISCOVERY_FOLDER_NAME")
     return f"/mmfs1/gscratch/scrubbed/{user}/{folder}"
@@ -56,9 +56,10 @@ def run_lean_folder(folder_path, chunk_size=10, timeout=60):
         chunk_contents = [item["content"] for item in chunk]
         chunk_names = [item["name"] for item in chunk]
         
-        print(f"[{i+len(chunk)}/{total_files}] Submitting batch...")
+        print(f"[{min(i+chunk_size, total_files)}/{total_files}] Submitting batch...")
         
-        batch_result = client.check(chunk_contents, timeout=timeout)
+        # Ensure timeout is a float for the client
+        batch_result = client.check(chunk_contents, timeout=float(timeout))
         
         for name, res in zip(chunk_names, batch_result.results):
             all_results.append({
@@ -67,24 +68,20 @@ def run_lean_folder(folder_path, chunk_size=10, timeout=60):
                 "time": res.time
             })
 
-    # Final Summary Table
     print("\n" + "="*75)
     print(f"{'FILE NAME':<45} | {'STATUS':<12} | {'TIME'}")
     print("-" * 75)
-    
     for res in all_results:
         print(f"{res['name']:<45} | {res['status']:<12} | {res['time']:.2f}s")
-
     print(f"\nTotal Processing Time: {time.time() - start_time:.2f}s")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python run_folder.py <folder_path>")
+        print("Usage: python verify_folder.py <folder_path>")
     else:
         target_dir = sys.argv[1]
         if os.path.isdir(target_dir):
-            # A chunk_size of 10-20 is generally safe for most network conditions
-            timeout = os.getenv("TIMEOUT")
-            run_lean_folder(target_dir, chunk_size=10, timeout=timeout)
+            timeout_val = os.getenv("TIMEOUT", "60")
+            run_lean_folder(target_dir, chunk_size=10, timeout=timeout_val)
         else:
             print(f"Error: {target_dir} is not a valid directory.")

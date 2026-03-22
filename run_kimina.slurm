@@ -6,7 +6,7 @@ set -a
 source .env
 set +a
 
-if ["$HYAK_USERNAME" == ""]; then HYAK_USERNAME="$USER"; fi
+if [ "$HYAK_USERNAME" == "" ]; then HYAK_USERNAME="$USER"; fi
 
 G_BASE="/mmfs1/gscratch/scrubbed/${HYAK_USERNAME}"
 KIMINA_ENGINE_DIR="${G_BASE}/${ENGINE_FOLDER_NAME}"
@@ -24,6 +24,7 @@ trap 'rm -f "$ADDR_FILE"' EXIT
 apptainer exec \
   --bind "${KIMINA_ENGINE_DIR}:/root/kimina-lean-server" \
   --bind "${ELAN_HOME_PATH}:${ELAN_HOME_PATH}" \
+  --home "${G_BASE}" \
   --pwd /root/kimina-lean-server \
   --env ELAN_HOME="${ELAN_HOME_PATH}" \
   --env PATH="${ELAN_HOME_PATH}/bin:/usr/local/bin:/usr/bin:/bin" \
@@ -31,4 +32,5 @@ apptainer exec \
   --env LEAN_SERVER_PORT=$PORT \
   --env LEAN_SERVER_LEAN_VERSION=$LEAN_VERSION \
   --env LEAN_SERVER_MAX_REPL_MEM=$MAX_REPL_MEM \
+  --env LEAN_SERVER_MAX_WAIT=$TIMEOUT \
   "${KIMINA_ENGINE_DIR}/kimina-lean-server.sif" python -m server

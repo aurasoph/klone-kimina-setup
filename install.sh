@@ -30,7 +30,14 @@ fi
 echo "--- Step 2: Pulling Container ---"
 cd "$KIMINA_ENGINE_DIR"
 if [ ! -f kimina-lean-server.sif ]; then
-    echo "Pulling container... this may take a while (up to an hour)."
+    if [ -d "/scr" ]; then
+        echo "Using local SSD (/scr) for faster container build..."
+        export APPTAINER_TMPDIR="/scr"
+    else
+        echo "Local SSD not found, using gscratch..."
+        export APPTAINER_TMPDIR="${G_BASE}/.apptainer_tmp"
+    fi
+    
     apptainer pull --force kimina-lean-server.sif docker://projectnumina/kimina-lean-server:2.0.0
 fi
 

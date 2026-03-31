@@ -89,7 +89,7 @@ cp "${SETUP_DIR}/verify_proof.py" "$USER_PROJECT_DIR/"
 cp "${SETUP_DIR}/demo_tactics.py" "$USER_PROJECT_DIR/"
 cp "${SETUP_DIR}/demo_batch.py" "$USER_PROJECT_DIR/"
 cp "${SETUP_DIR}/verify_folder.py" "$USER_PROJECT_DIR/"
-cp "${SETUP_DIRdemo.py" "$USER_PROJECT_DIR/"
+cp "${SETUP_DIRdemo.py}" "$USER_PROJECT_DIR/"
 cp "${SETUP_DIR}/.env" "$USER_PROJECT_DIR/"
 
 if [ -d "${SETUP_DIR}/example_lean" ]; then

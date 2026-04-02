@@ -59,7 +59,11 @@ def run_lean_folder(folder_path, chunk_size=10, timeout=60):
         print(f"[{min(i+chunk_size, total_files)}/{total_files}] Submitting batch...")
         
         # Ensure timeout is a float for the client
-        batch_result = client.check(chunk_contents, timeout=float(timeout))
+        batch_result = client.check(
+            chunk_contents,
+            timeout=float(timeout),
+            reuse=False,
+        )
         
         for name, res in zip(chunk_names, batch_result.results):
             all_results.append({

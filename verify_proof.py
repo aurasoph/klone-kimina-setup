@@ -26,7 +26,7 @@ if __name__ == "__main__":
     proof = "theorem my_theorem (p q : Prop) : p ∧ q ↔ q ∧ p := by exact And.comm"
     timeout_val = os.getenv("TIMEOUT", "60")
     
-    result = client.check(proof, timeout=float(timeout_val))
+    result = client.check(proof, timeout=float(timeout_val), reuse=False)
 
     print(f"Verification Results for: {client.api_url}")
     print(result.model_dump_json(indent=2))

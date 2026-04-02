@@ -32,7 +32,7 @@ def run_verification():
         {"id": "invalid", "code": "theorem t2 : 2 + 2 = 5 := by rfl"}
     ]
     
-    response = client.check(codes, timeout=30)
+    response = client.check(codes, timeout=30, reuse=False)
     
     for res in response.results:
         data = res.model_dump()
@@ -54,7 +54,12 @@ theorem demo_ex (n : Nat) : n + 0 = n := by
   | zero => rfl
   | succ n ih => simp [ih]
 """
-    response = client.check([{"id": "ex", "code": lean_code}], timeout=300, infotree="original")
+    response = client.check(
+        [{"id": "ex", "code": lean_code}],
+        timeout=300,
+        reuse=False,
+        infotree="original",
+    )
     res = response.results[0].model_dump().get('response') or {}
 
     split = split_snippet(lean_code)
@@ -78,7 +83,12 @@ theorem error_test (n : Nat) : n + 1 = 1 + n := by
   | succ n ih => 
     rw [Nat.add_assoc]
 """
-    response = client.check([{"id": "err", "code": lean_code}], timeout=300, infotree="original")
+    response = client.check(
+        [{"id": "err", "code": lean_code}],
+        timeout=300,
+        reuse=False,
+        infotree="original",
+    )
     res = response.results[0].model_dump().get('response') or {}
     
     # We expect an error here, so we grab the first one we find

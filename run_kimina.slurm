@@ -32,6 +32,7 @@ fi
 # and compiled repl binary, which causes Lean subprocess startup to fail.
 apptainer exec \
   --pwd /root/kimina-lean-server \
+  --env ELAN_HOME=/root/.elan \
   --env LEAN_SERVER_HOST=0.0.0.0 \
   --env LEAN_SERVER_PORT=$PORT \
   --env LEAN_SERVER_LEAN_VERSION=$LEAN_VERSION \

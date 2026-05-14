@@ -4,7 +4,7 @@
 #SBATCH --error=kimina_server_%j.err
 
 set -a
-source .env
+source ".env"
 set +a
 
 if [ "$HYAK_USERNAME" == "" ]; then HYAK_USERNAME="$USER"; fi

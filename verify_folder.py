@@ -65,7 +65,12 @@ def run_lean_folder(folder_path, chunk_size=10, timeout=60):
             timeout=float(timeout),
             reuse=False,
         )
-        
+
+        conn_errors = [res.error for res in batch_result.results if res.error is not None]
+        if conn_errors:
+            print(f"Connection error: {conn_errors[0]}", file=sys.stderr)
+            sys.exit(1)
+
         for name, res in zip(chunk_names, batch_result.results):
             all_results.append({
                 "name": name,

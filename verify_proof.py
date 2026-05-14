@@ -10,7 +10,8 @@ def get_discovery_path():
     if not user:
         user = os.getenv("USER")
     folder = os.getenv("DISCOVERY_FOLDER_NAME")
-    return f"/mmfs1/gscratch/scrubbed/{user}/{folder}"
+    scratch_base = os.getenv("SCRATCH_BASE", "/mmfs1/gscratch/scrubbed")
+    return f"{scratch_base}/{user}/{folder}"
 
 def get_url():
     discovery_dir = get_discovery_path()

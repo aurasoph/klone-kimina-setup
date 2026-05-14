@@ -7,7 +7,8 @@ set +a
 
 if [ "$HYAK_USERNAME" == "" ]; then HYAK_USERNAME="$USER"; fi
 
-G_BASE="/mmfs1/gscratch/scrubbed/${HYAK_USERNAME}"
+SCRATCH_BASE="${SCRATCH_BASE:-/mmfs1/gscratch/scrubbed}"
+G_BASE="${SCRATCH_BASE}/${HYAK_USERNAME}"
 DISCOVERY_DIR="${G_BASE}/${DISCOVERY_FOLDER_NAME}"
 
 # Clean up previous runs

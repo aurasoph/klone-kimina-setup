@@ -4,11 +4,14 @@ import glob
 from dotenv import load_dotenv
 
 # --- System Setup ---
-USER = os.getenv("HYAK_USERNAME") or os.getenv("USER") or os.getlogin()
-SCRATCH = f"/mmfs1/gscratch/scrubbed/{USER}"
+load_dotenv()
 
-ENGINE_ROOT = os.path.join(SCRATCH, "kimina-engine")
-DISCOVERY_PATH = os.path.join(SCRATCH, "kimina_server_discovery", "*.addr")
+USER = os.getenv("HYAK_USERNAME") or os.getenv("USER") or os.getlogin()
+SCRATCH_BASE = os.getenv("SCRATCH_BASE", "/mmfs1/gscratch/scrubbed")
+SCRATCH = os.path.join(SCRATCH_BASE, USER)
+
+ENGINE_ROOT = os.path.join(SCRATCH, os.getenv("ENGINE_FOLDER_NAME", "kimina-engine"))
+DISCOVERY_PATH = os.path.join(SCRATCH, os.getenv("DISCOVERY_FOLDER_NAME", "kimina_server_discovery"), "*.addr")
 
 if ENGINE_ROOT not in sys.path:
     sys.path.insert(0, ENGINE_ROOT)
@@ -107,7 +110,6 @@ theorem error_test (n : Nat) : n + 1 = 1 + n := by
 
 
 if __name__ == "__main__":
-    load_dotenv()
     run_verification()
     run_extraction()
     run_error_demo()

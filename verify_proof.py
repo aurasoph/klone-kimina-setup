@@ -14,6 +14,12 @@ def get_discovery_path():
     return f"{scratch_base}/{user}/{folder}"
 
 def get_url():
+    # KIMINA_SERVER_URL bypasses discovery — set this on hosts that can't
+    # see the klone gscratch filesystem (e.g. tillicum) and point it at the
+    # cloudflared URL printed in the SLURM log.
+    env_url = os.getenv("KIMINA_SERVER_URL")
+    if env_url:
+        return env_url.strip()
     discovery_dir = get_discovery_path()
     addr_files = glob.glob(f"{discovery_dir}/*.addr")
     if not addr_files:

@@ -19,6 +19,9 @@ def get_discovery_path():
 
 def get_url():
     """Retrieves the active server address from the discovery directory."""
+    env_url = os.getenv("KIMINA_SERVER_URL")
+    if env_url:
+        return env_url.strip()
     discovery_dir = get_discovery_path()
     addr_files = glob.glob(f"{discovery_dir}/*.addr")
     if not addr_files:

@@ -28,7 +28,21 @@ if [ ! -d "$KIMINA_ENGINE_DIR" ]; then
     git clone https://github.com/project-numina/kimina-lean-server.git "$KIMINA_ENGINE_DIR"
 fi
 
-echo "--- Step 2: Pulling Container ---"
+echo "--- Step 2: Installing cloudflared ---"
+# cloudflared is the agent that opens a Cloudflare Quick Tunnel from the
+# klone compute node to the public internet, so tillicum (or any client)
+# can POST to Kimina without inbound access to klone.
+mkdir -p "${HOME}/.local/bin"
+CLOUDFLARED_BIN="${HOME}/.local/bin/cloudflared"
+if [ ! -x "$CLOUDFLARED_BIN" ]; then
+    echo "Downloading cloudflared..."
+    curl -fsSL -o "$CLOUDFLARED_BIN" \
+        https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+    chmod +x "$CLOUDFLARED_BIN"
+fi
+echo "cloudflared: $("$CLOUDFLARED_BIN" --version 2>&1 | head -1)"
+
+echo "--- Step 3: Pulling Container ---"
 cd "$KIMINA_ENGINE_DIR"
 if [ ! -f kimina-lean-server.sif ]; then
     if [ -d "/scr" ]; then
@@ -42,7 +56,7 @@ if [ ! -f kimina-lean-server.sif ]; then
     apptainer pull --force kimina-lean-server.sif docker://projectnumina/kimina-lean-server:2.0.0
 fi
 
-echo "--- Step 3: Building Lean Components ---"
+echo "--- Step 4: Building Lean Components ---"
 apptainer exec \
   --bind .:/root/kimina-lean-server \
   --bind "${G_BASE}:${G_BASE}" \
@@ -54,7 +68,7 @@ apptainer exec \
   kimina-lean-server.sif bash -c "rm -f .env && bash setup.sh"
 cd -
 
-echo "--- Step 4: Preparing Conda Project ---"
+echo "--- Step 5: Preparing Conda Project ---"
 mkdir -p "$USER_PROJECT_DIR"
 module load conda
 
@@ -72,7 +86,7 @@ fi
 source $(conda info --base)/etc/profile.d/conda.sh
 conda activate "${USER_PROJECT_DIR}/conda_env"
 
-echo "--- Step 5: Installing Python Client ---"
+echo "--- Step 6: Installing Python Client ---"
 if command -v pip &> /dev/null; then
     pip install --upgrade pip
     pip install -e "${KIMINA_ENGINE_DIR}"
@@ -82,15 +96,13 @@ else
     exit 1
 fi
 
-echo "--- Step 6: Finalizing ---"
+echo "--- Step 7: Finalizing ---"
 SETUP_DIR="$(pwd)"
 cp "${SETUP_DIR}/submit_server.sh" "$USER_PROJECT_DIR/"
 cp "${SETUP_DIR}/run_kimina.slurm" "$USER_PROJECT_DIR/"
 cp "${SETUP_DIR}/verify_proof.py" "$USER_PROJECT_DIR/"
-cp "${SETUP_DIR}/demo_tactics.py" "$USER_PROJECT_DIR/"
-cp "${SETUP_DIR}/demo_batch.py" "$USER_PROJECT_DIR/"
 cp "${SETUP_DIR}/verify_folder.py" "$USER_PROJECT_DIR/"
-cp "${SETUP_DIR}/demo.py" "$USER_PROJECT_DIR/"
+cp "${SETUP_DIR}/large_demo.py" "$USER_PROJECT_DIR/"
 cp "${SETUP_DIR}/.env" "$USER_PROJECT_DIR/"
 
 if [ -d "${SETUP_DIR}/example_lean" ]; then

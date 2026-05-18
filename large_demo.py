@@ -21,6 +21,9 @@ from kimina_client.infotree import extract_data
 from server.split import split_snippet
 
 def get_server_url():
+    env_url = os.getenv("KIMINA_SERVER_URL")
+    if env_url:
+        return env_url.strip()
     with open(glob.glob(DISCOVERY_PATH)[0], 'r') as f:
         return f.read().strip()
 

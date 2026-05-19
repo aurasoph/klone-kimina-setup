@@ -49,7 +49,7 @@ cd klone-kimina-setup
 Edit `.env` — at minimum set `HYAK_USERNAME=<your netid>`. The defaults for resources (`JOB_CPUS=16`, `JOB_MEM=32G`, `JOB_TIME=08:00:00`, `JOB_ACCOUNT=stf`, `JOB_PARTITION=cpu-g2`) are reasonable starting points; adjust if your account/allocation differs.
 
 ### 1b. One-time install
-
+Please allocate yourself a compute node for this step 
 ```bash
 bash install.sh
 ```
